@@ -30,8 +30,6 @@ class TrpCollectionFilterFormHelper(FormHelper):
             Accordion(
                 AccordionGroup(
                     'Advanced search',
-                    
-                    'id',
                     'name',
                     'description',
                     'page_id',
@@ -83,8 +81,6 @@ class TrpDocumentFilterFormHelper(FormHelper):
             Accordion(
                 AccordionGroup(
                     'Advanced search',
-                    
-                    'id',
                     'title',
                     'author',
                     'upload_time_stamp',
@@ -163,8 +159,6 @@ class TrpPageFilterFormHelper(FormHelper):
             Accordion(
                 AccordionGroup(
                     'Advanced search',
-                    
-                    'id',
                     'part_of',
                     'page_nr',
                     'page_key',
@@ -220,8 +214,6 @@ class TrpTranscriptFilterFormHelper(FormHelper):
             Accordion(
                 AccordionGroup(
                     'Advanced search',
-                    
-                    'id',
                     'following',
                     'transcript_key',
                     'part_of',
@@ -263,5 +255,3 @@ class TrpTranscriptForm(forms.ModelForm):
         self.helper.label_class = 'col-md-3'
         self.helper.field_class = 'col-md-9'
         self.helper.add_input(Submit('submit', 'save'),)
-
-

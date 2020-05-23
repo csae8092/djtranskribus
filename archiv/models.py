@@ -28,12 +28,12 @@ class IdProvider(models.Model):
 
 
 class TrpCollection(IdProvider):
-    ### A collection of documents ###
+    """ A collection of documents """
     legacy_id = models.CharField(
         max_length=300, blank=True,
         verbose_name="Legacy ID"
         )
-    id = models.IntegerField(
+    id = models.BigIntegerField(
         primary_key=True,
         verbose_name="ID",
         help_text="Collection ID",
@@ -62,7 +62,7 @@ class TrpCollection(IdProvider):
         data_lookup="description",
         arche_prop="hasDescription",
     )
-    page_id = models.IntegerField(
+    page_id = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="Page ID",
         help_text="Page ID",
@@ -90,7 +90,7 @@ class TrpCollection(IdProvider):
         is_public=True,
         data_lookup="thumbUrl",
     )
-    nr_of_documents = models.IntegerField(
+    nr_of_documents = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="Number of Documents",
         help_text="Number of Documents",
@@ -118,12 +118,12 @@ class TrpCollection(IdProvider):
         )
 
     class Meta:
-        
+
         ordering = [
             'name',
         ]
         verbose_name = "Collection"
-    
+
     def __str__(self):
         if self.name:
             return "{}".format(self.name)
@@ -136,16 +136,16 @@ class TrpCollection(IdProvider):
     @classmethod
     def get_listview_url(self):
         return reverse('archiv:trpcollection_browse')
-    
+
     @classmethod
     def get_source_table(self):
         return "https://transkribus.eu/TrpServer/rest/collections/list"
-    
-    
+
+
     @classmethod
     def get_natural_primary_key(self):
         return "id"
-    
+
     @classmethod
     def get_createview_url(self):
         return reverse('archiv:trpcollection_create')
@@ -182,12 +182,12 @@ class TrpCollection(IdProvider):
 
 
 class TrpDocument(IdProvider):
-    ### A Transkribus Document ###
+    """ A Transkribus Document """
     legacy_id = models.CharField(
         max_length=300, blank=True,
         verbose_name="Legacy ID"
         )
-    id = models.IntegerField(
+    id = models.BigIntegerField(
         primary_key=True,
         verbose_name="ID",
         help_text="Document ID",
@@ -217,7 +217,7 @@ class TrpDocument(IdProvider):
         arche_prop="hasDescription",
         arche_prop_str_template="Author of the Document <value>",
     )
-    upload_time_stamp = models.IntegerField(
+    upload_time_stamp = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="Upload Timestamp",
         help_text="Upload Timestamp",
@@ -275,7 +275,7 @@ class TrpDocument(IdProvider):
         is_public=False,
         data_lookup="uploader",
     )
-    uploader_id = models.IntegerField(
+    uploader_id = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="Uploader (ID)",
         help_text="Uploader ID",
@@ -283,7 +283,7 @@ class TrpDocument(IdProvider):
         is_public=False,
         data_lookup="uploaderId",
     )
-    nr_of_pages = models.IntegerField(
+    nr_of_pages = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="Number of Pages",
         help_text="Number of Pages",
@@ -293,7 +293,7 @@ class TrpDocument(IdProvider):
         arche_prop="hasExtent",
         arche_prop_str_template="<value> pages",
     )
-    page_id = models.IntegerField(
+    page_id = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="Page ID",
         help_text="Page ID",
@@ -361,7 +361,7 @@ class TrpDocument(IdProvider):
         data_lookup="language",
         arche_prop="hasLanguage",
     )
-    status = models.IntegerField(
+    status = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="Status",
         help_text="Status",
@@ -369,7 +369,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="status",
     )
-    created_from_timestamp = models.IntegerField(
+    created_from_timestamp = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="Created (start)",
         help_text="Created (start)",
@@ -377,7 +377,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="createdFromTimestamp",
     )
-    created_to_timestamp = models.IntegerField(
+    created_to_timestamp = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="Created (end)",
         help_text="Created (end)",
@@ -385,7 +385,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="createdToTimestamp",
     )
-    orig_doc_id = models.IntegerField(
+    orig_doc_id = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="origDocId",
         help_text="origDocId",
@@ -405,7 +405,7 @@ class TrpDocument(IdProvider):
         data_lookup="colList__colId",
         arche_prop="isPartOf",
     )
-    nr_of_regions = models.IntegerField(
+    nr_of_regions = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfRegions",
         help_text="nrOfRegions",
@@ -413,7 +413,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="fulldoc__md__nrOfRegions",
     )
-    nr_of_transcribed_regions = models.IntegerField(
+    nr_of_transcribed_regions = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfTranscribedRegions",
         help_text="nrOfTranscribedRegions",
@@ -421,7 +421,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="fulldoc__md__nrOfTranscribedRegions",
     )
-    nr_of_words_in_regions = models.IntegerField(
+    nr_of_words_in_regions = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfWordsInRegions",
         help_text="nrOfWordsInRegions",
@@ -429,7 +429,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="fulldoc__md__nrOfWordsInRegions",
     )
-    nr_of_lines = models.IntegerField(
+    nr_of_lines = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfLines",
         help_text="nrOfLines",
@@ -437,7 +437,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="fulldoc__md__nrOfLines",
     )
-    nr_of_words_in_lines = models.IntegerField(
+    nr_of_words_in_lines = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfWordsInLines",
         help_text="nrOfWordsInLines",
@@ -445,7 +445,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="fulldoc__md__nrOfWordsInLines",
     )
-    nr_of_words = models.IntegerField(
+    nr_of_words = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfWords",
         help_text="nrOfWords",
@@ -453,7 +453,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="fulldoc__md__nrOfWords",
     )
-    nr_of_transcribed_words = models.IntegerField(
+    nr_of_transcribed_words = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfTranscribedWords",
         help_text="nrOfTranscribedWords",
@@ -461,7 +461,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="fulldoc__md__nrOfTranscribedWords",
     )
-    nr_of_new = models.IntegerField(
+    nr_of_new = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfNew",
         help_text="nrOfNew",
@@ -469,7 +469,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="fulldoc__md__nrOfNew",
     )
-    nr_of_in_progress = models.IntegerField(
+    nr_of_in_progress = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfInProgress",
         help_text="nrOfInProgress",
@@ -477,7 +477,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="fulldoc__md__nrOfInProgress",
     )
-    nr_of_done = models.IntegerField(
+    nr_of_done = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfDone",
         help_text="nrOfDone",
@@ -485,7 +485,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="fulldoc__md__nrOfDone",
     )
-    nr_of_final = models.IntegerField(
+    nr_of_final = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfFinal",
         help_text="nrOfFinal",
@@ -493,7 +493,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="fulldoc__md__nrOfFinal",
     )
-    nr_of_gt = models.IntegerField(
+    nr_of_gt = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfGT",
         help_text="nrOfGT",
@@ -510,12 +510,12 @@ class TrpDocument(IdProvider):
         )
 
     class Meta:
-        
+
         ordering = [
             'id',
         ]
         verbose_name = "Document"
-    
+
     def __str__(self):
         if self.id:
             return "{}".format(self.id)
@@ -528,16 +528,16 @@ class TrpDocument(IdProvider):
     @classmethod
     def get_listview_url(self):
         return reverse('archiv:trpdocument_browse')
-    
+
     @classmethod
     def get_source_table(self):
         return "https://transkribus.eu/TrpServer/rest/collections/{col_id}/list"
-    
-    
+
+
     @classmethod
     def get_natural_primary_key(self):
         return "id"
-    
+
     @classmethod
     def get_createview_url(self):
         return reverse('archiv:trpdocument_create')
@@ -574,12 +574,12 @@ class TrpDocument(IdProvider):
 
 
 class TrpPage(IdProvider):
-    ### A Transkribus Page ###
+    """ A Transkribus Page """
     legacy_id = models.CharField(
         max_length=300, blank=True,
         verbose_name="Legacy ID"
         )
-    id = models.IntegerField(
+    id = models.BigIntegerField(
         primary_key=True,
         verbose_name="Page ID",
         help_text="Page ID",
@@ -599,7 +599,7 @@ class TrpPage(IdProvider):
         is_public=True,
         data_lookup="fulldoc__pageList__pages__docId",
     )
-    page_nr = models.IntegerField(
+    page_nr = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="Page Number",
         help_text="Page Number",
@@ -617,7 +617,7 @@ class TrpPage(IdProvider):
         data_lookup="fulldoc__pageList__pages__key",
         arche_prop_str_template="hasNonLinkedIdentifier",
     )
-    image_id = models.IntegerField(
+    image_id = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="ID of Image",
         help_text="ID of Image",
@@ -653,7 +653,7 @@ class TrpPage(IdProvider):
         is_public=True,
         data_lookup="fulldoc__pageList__pages__imgFileName",
     )
-    width = models.IntegerField(
+    width = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="width",
         help_text="width",
@@ -662,7 +662,7 @@ class TrpPage(IdProvider):
         data_lookup="fulldoc__pageList__pages__width",
         arche_prop_str_template="hasExtent",
     )
-    height = models.IntegerField(
+    height = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="height",
         help_text="height",
@@ -698,12 +698,12 @@ class TrpPage(IdProvider):
         )
 
     class Meta:
-        
+
         ordering = [
             'id',
         ]
         verbose_name = "Page"
-    
+
     def __str__(self):
         if self.id:
             return "{}".format(self.id)
@@ -716,16 +716,16 @@ class TrpPage(IdProvider):
     @classmethod
     def get_listview_url(self):
         return reverse('archiv:trppage_browse')
-    
+
     @classmethod
     def get_source_table(self):
         return "https://transkribus.eu/TrpServer/rest/collections/{col_id}/{doc_id}/fulldoc"
-    
-    
+
+
     @classmethod
     def get_natural_primary_key(self):
         return "id"
-    
+
     @classmethod
     def get_createview_url(self):
         return reverse('archiv:trppage_create')
@@ -762,12 +762,12 @@ class TrpPage(IdProvider):
 
 
 class TrpTranscript(IdProvider):
-    ### A Transkribus Transcript ###
+    """ A Transkribus Transcript """
     legacy_id = models.CharField(
         max_length=300, blank=True,
         verbose_name="Legacy ID"
         )
-    id = models.IntegerField(
+    id = models.BigIntegerField(
         primary_key=True,
         verbose_name="Transcript ID",
         help_text="Transcript ID",
@@ -852,7 +852,7 @@ class TrpTranscript(IdProvider):
         is_public=False,
         data_lookup="fulldoc__tsList__transcripts__userName",
     )
-    transcriber_id = models.IntegerField(
+    transcriber_id = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="Transcriber (ID)",
         help_text="Transcriber (ID)",
@@ -860,7 +860,7 @@ class TrpTranscript(IdProvider):
         is_public=False,
         data_lookup="fulldoc__tsList__transcripts__userId",
     )
-    timestamp = models.IntegerField(
+    timestamp = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="Timestamp",
         help_text="Timestamp",
@@ -868,7 +868,7 @@ class TrpTranscript(IdProvider):
         is_public=True,
         data_lookup="fulldoc__tsList__transcripts__userId",
     )
-    nr_of_regions = models.IntegerField(
+    nr_of_regions = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfRegions",
         help_text="nrOfRegions",
@@ -876,7 +876,7 @@ class TrpTranscript(IdProvider):
         is_public=True,
         data_lookup="fulldoc__tsList__transcripts__nrOfRegions",
     )
-    nr_of_transcribed_regions = models.IntegerField(
+    nr_of_transcribed_regions = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfTranscribedRegions",
         help_text="nrOfTranscribedRegions",
@@ -884,7 +884,7 @@ class TrpTranscript(IdProvider):
         is_public=True,
         data_lookup="fulldoc__tsList__transcripts__nrOfTranscribedRegions",
     )
-    nr_of_words_in_regions = models.IntegerField(
+    nr_of_words_in_regions = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfWordsInRegions",
         help_text="nrOfWordsInRegions",
@@ -892,7 +892,7 @@ class TrpTranscript(IdProvider):
         is_public=True,
         data_lookup="fulldoc__tsList__transcripts__nrOfWordsInRegions",
     )
-    nr_of_lines = models.IntegerField(
+    nr_of_lines = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfLines",
         help_text="nrOfLines",
@@ -900,7 +900,7 @@ class TrpTranscript(IdProvider):
         is_public=True,
         data_lookup="fulldoc__tsList__transcripts__nrOfLines",
     )
-    nr_of_words_in_lines = models.IntegerField(
+    nr_of_words_in_lines = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfWordsInLines",
         help_text="nrOfWordsInLines",
@@ -908,7 +908,7 @@ class TrpTranscript(IdProvider):
         is_public=True,
         data_lookup="fulldoc__tsList__transcripts__nrOfWordsInLines",
     )
-    nr_of_words = models.IntegerField(
+    nr_of_words = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="nrOfWords",
         help_text="nrOfWords",
@@ -916,7 +916,7 @@ class TrpTranscript(IdProvider):
         is_public=True,
         data_lookup="fulldoc__tsList__transcripts__nrOfWords",
     )
-    gt_id = models.IntegerField(
+    gt_id = models.BigIntegerField(
         blank=True, null=True,
         verbose_name="gtId",
         help_text="gtId",
@@ -933,12 +933,12 @@ class TrpTranscript(IdProvider):
         )
 
     class Meta:
-        
+
         ordering = [
             'id',
         ]
         verbose_name = "Transcript"
-    
+
     def __str__(self):
         if self.id:
             return "{}".format(self.id)
@@ -951,16 +951,16 @@ class TrpTranscript(IdProvider):
     @classmethod
     def get_listview_url(self):
         return reverse('archiv:trptranscript_browse')
-    
+
     @classmethod
     def get_source_table(self):
         return "https://transkribus.eu/TrpServer/rest/collections/{col_id}/{doc_id}/fulldoc"
-    
-    
+
+
     @classmethod
     def get_natural_primary_key(self):
         return "id"
-    
+
     @classmethod
     def get_createview_url(self):
         return reverse('archiv:trptranscript_create')
@@ -994,5 +994,3 @@ class TrpTranscript(IdProvider):
                 kwargs={'pk': prev.first().id}
             )
         return False
-
-
