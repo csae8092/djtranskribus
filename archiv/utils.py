@@ -1,3 +1,5 @@
+from tqdm import tqdm
+
 from transkribus.trp_utils import trp_list_collections, trp_list_docs, trp_get_doc_md
 from appcreator.import_utils import field_mapping
 
@@ -10,7 +12,7 @@ def update_collections():
     """
     collections_json = trp_list_collections()
     field_dict = field_mapping(TrpCollection)
-    for x in collections_json:
+    for x in tqdm(collections_json, total=len(collections_json)):
         item = {}
         for source_key, target_key in field_dict.items():
             target_value = x.get(source_key, None)
