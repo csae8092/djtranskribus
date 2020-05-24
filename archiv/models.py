@@ -225,7 +225,7 @@ class TrpDocument(IdProvider):
         is_public=True,
         data_lookup="uploadTimestamp",
     )
-    created_at = models.DateField(
+    created_at = models.DateTimeField(
         blank=True, null=True,
         verbose_name="Creation Time",
         help_text="Creation Time of the Document",
@@ -585,7 +585,7 @@ class TrpPage(IdProvider):
         help_text="Page ID",
     ).set_extra(
         is_public=True,
-        data_lookup="fulldoc__pageList__pages__pageId",
+        data_lookup="pageId",
     )
     part_of = models.ForeignKey(
         "TrpDocument",
@@ -597,7 +597,7 @@ class TrpPage(IdProvider):
         help_text="part of Document",
     ).set_extra(
         is_public=True,
-        data_lookup="fulldoc__pageList__pages__docId",
+        data_lookup="docId",
     )
     page_nr = models.BigIntegerField(
         blank=True, null=True,
@@ -605,7 +605,7 @@ class TrpPage(IdProvider):
         help_text="Page Number",
     ).set_extra(
         is_public=True,
-        data_lookup="fulldoc__pageList__pages__pageNr",
+        data_lookup="pageNr",
     )
     page_key = models.CharField(
         blank=True, null=True,
@@ -614,7 +614,7 @@ class TrpPage(IdProvider):
         help_text="Key of the Page",
     ).set_extra(
         is_public=True,
-        data_lookup="fulldoc__pageList__pages__key",
+        data_lookup="key",
         arche_prop_str_template="hasNonLinkedIdentifier",
     )
     image_id = models.BigIntegerField(
@@ -623,7 +623,7 @@ class TrpPage(IdProvider):
         help_text="ID of Image",
     ).set_extra(
         is_public=True,
-        data_lookup="fulldoc__pageList__pages__imageId",
+        data_lookup="imageId",
         arche_prop_str_template="hasNonLinkedIdentifier",
     )
     page_url = models.CharField(
@@ -633,7 +633,7 @@ class TrpPage(IdProvider):
         help_text="URL of Image",
     ).set_extra(
         is_public=True,
-        data_lookup="fulldoc__pageList__pages__url",
+        data_lookup="url",
     )
     thum_url = models.CharField(
         blank=True, null=True,
@@ -642,7 +642,7 @@ class TrpPage(IdProvider):
         help_text="Thumb URL",
     ).set_extra(
         is_public=True,
-        data_lookup="fulldoc__pageList__pages__thumbUrl",
+        data_lookup="thumbUrl",
     )
     img_file_name = models.CharField(
         blank=True, null=True,
@@ -651,7 +651,7 @@ class TrpPage(IdProvider):
         help_text="Filename",
     ).set_extra(
         is_public=True,
-        data_lookup="fulldoc__pageList__pages__imgFileName",
+        data_lookup="imgFileName",
     )
     width = models.BigIntegerField(
         blank=True, null=True,
@@ -659,7 +659,7 @@ class TrpPage(IdProvider):
         help_text="width",
     ).set_extra(
         is_public=True,
-        data_lookup="fulldoc__pageList__pages__width",
+        data_lookup="width",
         arche_prop_str_template="hasExtent",
     )
     height = models.BigIntegerField(
@@ -668,16 +668,16 @@ class TrpPage(IdProvider):
         help_text="height",
     ).set_extra(
         is_public=True,
-        data_lookup="fulldoc__pageList__pages__height",
+        data_lookup="height",
         arche_prop_str_template="hasExtent",
     )
-    created = models.DateField(
+    created = models.DateTimeField(
         blank=True, null=True,
         verbose_name="created",
         help_text="created",
     ).set_extra(
         is_public=True,
-        data_lookup="fulldoc__pageList__pages__created",
+        data_lookup="created",
         arche_prop_str_template="hasCreatedDate",
     )
     indexed = models.BooleanField(
@@ -687,7 +687,7 @@ class TrpPage(IdProvider):
         help_text="indexed",
     ).set_extra(
         is_public=True,
-        data_lookup="fulldoc__pageList__pages__indexed",
+        data_lookup="indexed",
     )
     orig_data_csv = models.TextField(
         blank=True,

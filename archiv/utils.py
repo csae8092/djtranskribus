@@ -1,9 +1,9 @@
 from tqdm import tqdm
 
-from transkribus.trp_utils import trp_list_collections, trp_list_docs, trp_get_doc_md
+from transkribus.trp_utils import trp_list_collections, trp_list_docs, trp_get_doc_overview_md
 from appcreator.import_utils import field_mapping
 
-from . models import TrpCollection, TrpDocument
+from . models import TrpCollection, TrpDocument, TrpPage
 
 
 def update_collections():
@@ -28,6 +28,34 @@ def update_collections():
     return collections_json
 
 
+def import_pages(doc, page_list):
+    """ create TrpPage objects from TrpDocument
+        :param doc: A TrpDocument object
+        :param page_list: A dict with page-info (retrieved from Transkribus API)
+        :return: a string "done"
+    """
+    source = page_list
+    field_dict = field_mapping(TrpPage)
+    print(f"{len(page_list)} Pages to import: ")
+    for x in tqdm(page_list, total=len(page_list)):
+        p_id = x['pageId']
+        temp_item, _ = TrpPage.objects.get_or_create(id=p_id)
+        item = {}
+        for source_key, target_key in field_dict.items():
+            target_value = x.get(source_key, None)
+            if target_value is not None:
+                item[target_key] = target_value
+        temp_item, _ = TrpPage.objects.get_or_create(id=item['id'])
+        for cur_attr, my_val in item.items():
+            try:
+                setattr(temp_item, cur_attr, my_val)
+            except ValueError:
+                pass
+        temp_item.part_of = doc
+        temp_item.save()
+    return "done"
+
+
 def update_docs(col):
     """ fetches all documents from collection
         :param col: a TrpCollection object
@@ -49,7 +77,7 @@ def update_docs(col):
     #         print(cur_attr, my_val)
             setattr(temp_item, cur_attr, my_val)
             temp_item.col_list.add(col)
-            temp_item.save()
+        temp_item.save()
     return source_list
 
 
@@ -59,16 +87,23 @@ def enrich_doc(doc):
         :return: the enriched document
     """
     col_id = doc.col_list.all()[0].id
-    item_source = trp_get_doc_md(doc.id, col_id=col_id)
+    item_source = trp_get_doc_overview_md(doc.id, col_id=col_id)
+    md = item_source['trp_return']['md']
+    try:
+        page_list = item_source["trp_return"]['pageList']['pages']
+    except KeyError:
+        pages = None
     field_dict = field_mapping(doc.__class__)
     item = {}
     for source_key, target_key in field_dict.items():
         if "__md__" in source_key:
             source_key = source_key.split('__md__')[-1]
-            target_value = item_source.get(source_key, None)
+            target_value = md.get(source_key, None)
             if target_value is not None:
                 item[target_key] = target_value
     for cur_attr, my_val in item.items():
         setattr(doc, cur_attr, my_val)
     doc.save()
+    if page_list is not None:
+        import_pages(doc, page_list)
     return doc
