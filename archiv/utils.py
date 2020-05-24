@@ -35,7 +35,8 @@ def update_docs(col):
     """
     source_list = trp_list_docs(col.id)
     field_dict = field_mapping(TrpDocument)
-    for x in source_list:
+    print(f"Collection {col} holds {len(source_list)} Documents ")
+    for x in tqdm(source_list, total=len(source_list)):
         item = {}
         for source_key, target_key in field_dict.items():
             target_value = x.get(source_key, None)

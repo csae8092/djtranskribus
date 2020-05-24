@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
 from archiv.models import TrpCollection
-from archiv.utils import update_collections, update_docs, enrich_doc
+from archiv.utils import update_collections
 
 
 warnings.filterwarnings('ignore')
