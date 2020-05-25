@@ -128,7 +128,7 @@ class TrpCollection(IdProvider):
         if self.name:
             return "{}".format(self.name)
         else:
-            return "{}".format(self.legacy_id)
+            return "{}".format(self.id)
 
     def field_dict(self):
         return model_to_dict(self)
@@ -517,10 +517,10 @@ class TrpDocument(IdProvider):
         verbose_name = "Document"
 
     def __str__(self):
-        if self.id:
-            return "{}".format(self.id)
+        if self.title:
+            return f"{self.title} ({self.id})"
         else:
-            return "{}".format(self.legacy_id)
+            return "{}".format(self.id)
 
     def field_dict(self):
         return model_to_dict(self)

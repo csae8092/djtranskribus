@@ -85,6 +85,8 @@
 
                   {% elif  x.f_type == 'SIMPLE' %}
                   {{ x.value }}
+                  {% else %}
+                  {{ x.value }}
                   {% endif %}
                 </td>
               </tr>
@@ -124,6 +126,8 @@
 
                     {% elif  x.f_type == 'SIMPLE' %}
                     {{ x.value|safe }}
+                    {% else %}
+                    {{ x.value }}
                     {% endif %}
                   </td>
                 </tr>
