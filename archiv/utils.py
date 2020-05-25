@@ -86,7 +86,11 @@ def enrich_doc(doc):
         :param doc: a TrpDocument object
         :return: the enriched document
     """
-    col_id = doc.col_list.all()[0].id
+    try:
+        col_id = doc.col_list.all()[0].id
+    except Exception as e:
+        print(f"ERROR: {e}")
+        return doc
     item_source = trp_get_doc_overview_md(doc.id, col_id=col_id)
     md = item_source['trp_return']['md']
     try:

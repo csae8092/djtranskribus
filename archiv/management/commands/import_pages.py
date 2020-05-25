@@ -33,7 +33,7 @@ class Command(BaseCommand):
         )
         logging.info(f"start import/update at: {overall_start_time}")
         for x in tqdm(current_docs, total=current_docs.count()):
-            logging.info(f"importing documents for collection {x}")
+            logging.info(f"importing Pages for Document {x}")
             enrich_doc(x)
         logging.info(f"Pages before: {current_pages.count()}")
         logging.info(f"Pages after: {TrpPage.objects.all().count()}")
