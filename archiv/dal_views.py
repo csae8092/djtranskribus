@@ -22,7 +22,7 @@ class TrpDocumentAC(autocomplete.Select2QuerySetView):
 
         if self.q:
             qs = qs.filter(
-                Q(legacy_id__icontains=self.q) |
+                Q(title__icontains=self.q) |
                 Q(id__icontains=self.q)
             )
         return qs
@@ -50,5 +50,3 @@ class TrpTranscriptAC(autocomplete.Select2QuerySetView):
                 Q(id__icontains=self.q)
             )
         return qs
-
-

@@ -705,8 +705,8 @@ class TrpPage(IdProvider):
         verbose_name = "Page"
 
     def __str__(self):
-        if self.id:
-            return "{}".format(self.id)
+        if self.part_of is not None:
+            return f"{self.part_of}, p. {self.page_nr}"
         else:
             return "{}".format(self.legacy_id)
 

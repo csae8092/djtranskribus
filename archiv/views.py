@@ -73,7 +73,7 @@ class TrpDocumentListView(GenericListView):
     formhelper_class = TrpDocumentFilterFormHelper
     table_class = TrpDocumentTable
     init_columns = [
-        'id', 'id',
+        'id', 'title',
     ]
     enable_merge = True
 
@@ -121,7 +121,7 @@ class TrpPageListView(GenericListView):
     formhelper_class = TrpPageFilterFormHelper
     table_class = TrpPageTable
     init_columns = [
-        'id', 'id',
+        'id', 'part_of', 'page_nr',
     ]
     enable_merge = True
 
@@ -208,5 +208,3 @@ class TrpTranscriptDelete(DeleteView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(TrpTranscriptDelete, self).dispatch(*args, **kwargs)
-
-
