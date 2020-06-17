@@ -100,6 +100,15 @@ class TrpCollection(IdProvider):
         arche_prop="hasExtent",
         arche_prop_str_template="<value> Documents",
     )
+    nr_of_pages = models.BigIntegerField(
+        blank=True, null=True,
+        verbose_name="Number of Pages",
+        help_text="Number of Pages",
+    ).set_extra(
+        is_public=True,
+        arche_prop="hasExtent",
+        arche_prop_str_template="<value> Pages",
+    )
     role = models.CharField(
         blank=True, null=True,
         max_length=250,
@@ -133,6 +142,17 @@ class TrpCollection(IdProvider):
     def field_dict(self):
         return model_to_dict(self)
 
+    def get_nr_of_pages(self):
+        pages = self.rvn_trpdocument_col_list_trpcollection.all()
+        page_count = sum([x.nr_of_pages for x in pages])
+        return page_count
+
+    def save_nr_of_pages(self):
+        pages = self.get_nr_of_pages()
+        self.nr_of_pages = pages
+        self.save()
+        return pages
+
     @classmethod
     def get_listview_url(self):
         return reverse('archiv:trpcollection_browse')
@@ -141,7 +161,6 @@ class TrpCollection(IdProvider):
     def get_source_table(self):
         return "https://transkribus.eu/TrpServer/rest/collections/list"
 
-
     @classmethod
     def get_natural_primary_key(self):
         return "id"
@@ -149,9 +168,6 @@ class TrpCollection(IdProvider):
     @classmethod
     def get_createview_url(self):
         return reverse('archiv:trpcollection_create')
-
-    def get_absolute_url(self):
-        return reverse('archiv:trpcollection_detail', kwargs={'pk': self.id})
 
     def get_absolute_url(self):
         return reverse('archiv:trpcollection_detail', kwargs={'pk': self.id})
@@ -508,6 +524,20 @@ class TrpDocument(IdProvider):
         ).set_extra(
             is_public=True
         )
+    as_mets = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="The document's METS file"
+        ).set_extra(
+            is_public=True
+        )
+    as_tei = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="The document as TEI file"
+        ).set_extra(
+            is_public=True
+        )
 
     class Meta:
 
@@ -532,7 +562,6 @@ class TrpDocument(IdProvider):
     @classmethod
     def get_source_table(self):
         return "https://transkribus.eu/TrpServer/rest/collections/{col_id}/list"
-
 
     @classmethod
     def get_natural_primary_key(self):

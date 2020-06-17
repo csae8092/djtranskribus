@@ -28,7 +28,6 @@ class Command(BaseCommand):
         logging.info(f"Collections before: {current_col_count}")
         logging.info(f"start import/update at: {overall_start_time}")
         import_start = update_collections()
-        current_col_count = TrpCollection.objects.all().count()
         logging.info(f"Collections before: {current_col_count}")
         logging.info(f"Collections after: {TrpCollection.objects.all().count()}")
         logging.info(f"finished at {datetime.datetime.now()}")

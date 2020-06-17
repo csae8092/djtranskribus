@@ -1,16 +1,33 @@
-from tqdm import tqdm
+from django.conf import settings
 
-from transkribus.trp_utils import trp_list_collections, trp_list_docs, trp_get_doc_overview_md
+from tqdm import tqdm
+from transkribus_utils.transkribus_utils import (
+    trp_list_collections, trp_list_docs, trp_get_doc_overview_md
+)
 from appcreator.import_utils import field_mapping
 
 from . models import TrpCollection, TrpDocument, TrpPage
+
+try:
+    user = settings.TRANSKRIBUS['user']
+except (AttributeError, KeyError) as e:
+    print("no TRANSKRIBUS user set in the project's settings file")
+    print(e)
+    user = "user"
+
+try:
+    pw = settings.TRANSKRIBUS['pw']
+except (AttributeError, KeyError) as e:
+    print("no TRANSKRIBUS pw set in the project's settings file")
+    print(e)
+    pw = "pw"
 
 
 def update_collections():
     """ creates TrpCollection objects from all collections of a Transkribus user
         :return: the result of the transkribus-collections-rest-endpoint
     """
-    collections_json = trp_list_collections()
+    collections_json = trp_list_collections(user, pw)
     field_dict = field_mapping(TrpCollection)
     for x in tqdm(collections_json, total=len(collections_json)):
         item = {}
@@ -61,7 +78,7 @@ def update_docs(col):
         :param col: a TrpCollection object
         :return: the result of the transkribus-docs-rest-endpoint
     """
-    source_list = trp_list_docs(col.id)
+    source_list = trp_list_docs(col.id, user, pw)
     field_dict = field_mapping(TrpDocument)
     print(f"Collection {col} holds {len(source_list)} Documents ")
     for x in tqdm(source_list, total=len(source_list)):
@@ -91,7 +108,7 @@ def enrich_doc(doc):
     except Exception as e:
         print(f"ERROR: {e}")
         return doc
-    item_source = trp_get_doc_overview_md(doc.id, col_id=col_id)
+    item_source = trp_get_doc_overview_md(doc.id, col_id, user, pw)
     md = item_source['trp_return']['md']
     try:
         page_list = item_source["trp_return"]['pageList']['pages']
